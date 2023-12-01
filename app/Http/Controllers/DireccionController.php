@@ -48,4 +48,22 @@ class DireccionController extends Controller
 
         return redirect()->route('direccionIndex');
     }
+
+    //------------------------------ Lógica: EDITAR DIRECCION -------------------------------------
+    public function direccionEdit($id){
+        $query = direccion::find($id);
+        return view("/direccion/direccionEdit")
+        ->with(['direccionEdit' => $query]);
+    }
+
+    public function direccionSalvar(direccion $id, Request $request){
+        $query = direccion::find($id->id_direccion);
+            $query -> calle = $request -> calle;
+            $query -> no_interior = $request -> no_interior;
+            $query -> no_exterior = $request -> no_exterior;
+            $query -> cop = $request -> cop;
+        $query->save();
+
+        return redirect()->route("direccionIndex", ['id' => $id->id_direccion]);
+    }
 }

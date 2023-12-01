@@ -22,7 +22,6 @@
                 <!-- FORMULARIO PARA AGREGAR -->
                 <form action="{{ route('direccionReg')}}" method="POST" enctype="multipart/form-data">
                     {{ csrf_field() }}
-                    <h5>Datos personales</h5>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="row m-2">
@@ -55,7 +54,7 @@
                     <!--BOTÓN DE VOLVER -->
                         <div class="col-md-3">
                             <a href="{{ route('direccionIndex') }}">
-                                <button type="button" class="btn btn-primary ">Vover</button>
+                                <button type="button" class="btn btn-primary ">Volver</button>
                             </a>
                         </div>
                     </div>

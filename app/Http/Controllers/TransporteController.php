@@ -28,4 +28,49 @@ class TransporteController extends Controller
         $id->delete();
         return redirect()->route('transporteIndex');
     }
+
+    //------------------------------ Lógica: ALTA DE TRANSPORTE -------------------------------------
+    public function transporteAdd(){
+        $query = \DB::select("SELECT tb_transporte.`fk_id_destino`,tb_destino.`destino`
+        FROM tb_transporte
+        INNER JOIN `tb_destino` ON `id_destino`=fk_id_destino");
+        return view("/transporte/transporteAdd")
+        ->with(['transporteA' => $query]);
+    }
+
+    public function transporteReg(Request $request){
+        $this->validate($request,[
+            'capacidad' => 'required',
+            'peso' => 'required',
+            'no_asiento' => 'required',
+        ]);
+
+        transporte::create(array(
+            'capacidad' => $request->input('capacidad'),
+            'peso' => $request->input('peso'),
+            'no_asiento' => $request->input('no_asiento'),
+            'fk_id_destino' => $request->input('fk_id_destino'),
+        ));
+
+        return redirect()->route('transporteIndex');
+    }
+
+    //------------------------------ Lógica: EDITAR TRANSPORTE -------------------------------------
+    public function transporteEdit($id){
+        $query = transporte::find($id);
+        return view("/transporte/transporteEdit")
+        ->with(['transporteEdit' => $query]);
+    }
+
+
+    public function transporteSalvar(transporte $id, Request $request){
+        $query = transporte::find($id->id_transporte);
+            $query -> capacidad = $request -> capacidad;
+            $query -> peso = $request -> peso;
+            $query -> no_asiento = $request -> no_asiento;
+            $query -> fk_id_destino = $request -> fk_id_destino;
+        $query->save();
+
+        return redirect()->route("transporteIndex", ['id' => $id->id_transporte]);
+    }
 }
